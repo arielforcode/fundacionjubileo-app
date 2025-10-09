@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_splashscreen"
+    tools:context=".LoginActivity">
+
+    <!-- Contenido centrado y desplazable si aparece el teclado -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Este contenedor centra verticalmente la tarjeta cuando hay espacio -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="24dp"
+                app:cardCornerRadius="16dp"
+                app:cardUseCompatPadding="true"
+                app:cardElevation="6dp"
+                app:strokeColor="@color/colorSecondary"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:id="@+id/loginContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:padding="24dp"
+                    android:background="@color/colorBackground">
+
+                    <!-- Título -->
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Bienvenido"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/textPrimary"
+                        android:gravity="center"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- LOGO entre título y switch -->
+                    <ImageView
+                        android:id="@+id/ivLogo"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginBottom="16dp"
+                        android:contentDescription="Logo Fundación Jubileo"
+                        android:src="@drawable/fundacionjubileologotransparente"
+                        tools:ignore="ContentDescription" />
+
+                    <!-- Email -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEmail"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email"
+                        app:boxStrokeColor="@color/til_stroke_color"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:hintTextColor="@color/til_hint_color"
+                        android:layout_marginBottom="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:textColor="@color/textPrimary"
+                            android:textColorHint="@color/textSecondary"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Password -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilPassword"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Contraseña"
+                        app:endIconMode="password_toggle"
+                        app:endIconTint="@color/colorPrimary"
+                        app:boxStrokeColor="@color/til_stroke_color"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:hintTextColor="@color/til_hint_color"
+                        android:layout_marginBottom="20dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etPassword"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPassword"
+                            android:textColor="@color/textPrimary"
+                            android:textColorHint="@color/textSecondary"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchPhoneLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Iniciar sesión con número de celular"
+                        android:textColor="@color/textPrimary"
+                        android:layout_marginBottom="20dp"
+                        app:thumbTint="@color/switch_thumb_color"
+                        app:trackTint="@color/switch_track_color"/>
+
+                    <!-- Botón principal -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLogin"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Iniciar sesión"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        app:cornerRadius="12dp"
+                        app:rippleColor="@color/colorAccent"
+                        app:backgroundTint="@color/colorPrimary"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- LEYENDA fija al fondo de la pantalla -->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvLegend"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Sistema de registro de participantes de la Fundación Jubileo"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:alpha="0.9"
+        android:gravity="center"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

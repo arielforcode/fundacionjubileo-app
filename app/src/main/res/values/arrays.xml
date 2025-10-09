@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="empresas">
+        <item>ENTEL</item>
+        <item>TIGO</item>
+        <item>VIVA</item>
+    </string-array>
+
+    <string-array name="departamentos">
+        <item>BENI</item>
+        <item>CHUQUISACA</item>
+        <item>COCHABAMBA</item>
+        <item>LA PAZ</item>
+        <item>ORURO</item>
+        <item>POTOSÍ</item>
+        <item>PANDO</item>
+        <item>SANTA CRUZ</item>
+        <item>TARIJA</item>
+    </string-array>
+</resources>
