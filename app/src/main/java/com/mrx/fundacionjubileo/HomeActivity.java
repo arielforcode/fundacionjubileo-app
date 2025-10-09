@@ -1,7 +1,9 @@
 package com.mrx.fundacionjubileo;
-
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,14 @@ public class HomeActivity extends AppCompatActivity {
 
         MaterialButton btnLogin = findViewById(R.id.btnRegistrar);
         MaterialButton btncodigo = findViewById(R.id.btnCodigo);
+        MaterialButton btnlista= findViewById(R.id.btnEstatus);
+
+        btnlista.setOnClickListener(view -> {
+            SharedPreferences prefs = this.getSharedPreferences("AutorizacionQr", Context.MODE_PRIVATE);
+            String fechaStr = prefs.getString("vigencia", null);
+            int pid = prefs.getInt("IdProyecto", -1);
+            Toast.makeText(this, "vigencia " + fechaStr + ","+pid, Toast.LENGTH_SHORT).show();
+        });
 
         btncodigo.setOnClickListener(view -> {
             startActivity(new Intent(HomeActivity.this, QrScanActivity.class));

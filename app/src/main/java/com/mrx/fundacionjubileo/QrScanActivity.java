@@ -3,25 +3,13 @@ package com.mrx.fundacionjubileo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
-
-import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
+import android.content.Context;
+import android.content.SharedPreferences;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
-
-import org.json.JSONObject;
-
-import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 public class QrScanActivity extends AppCompatActivity {
 
     //todo Marcar el token con el mismo token de encriptado en el qr del sistema web
@@ -62,7 +50,7 @@ public class QrScanActivity extends AppCompatActivity {
                 if (p == null) {
                     Toast.makeText(this, "Firma inválida", Toast.LENGTH_LONG).show();
                 } else {
-                    String msg = "ID proyecto: " + p.pid + "\nVigencia UTC: " + p.vigInstant;
+                    String msg = "Vigencia: " + p.vigInstant;
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                 }
             } catch (Exception ex) {
@@ -77,7 +65,7 @@ public class QrScanActivity extends AppCompatActivity {
     // ==== MODELO DE RETORNO ====
     static class Payload {
         public int pid;
-        public java.time.Instant vigInstant;
+        public String  vigInstant;
     }
 
     // ==== VERIFICACIÓN Y DECODE ====
@@ -102,15 +90,30 @@ public class QrScanActivity extends AppCompatActivity {
         int pid = obj.getInt("pid");
         String vig = obj.getString("vig");
 
-        // Parsear "yyyyMMddTHHmmssZ" a Instant UTC
-        java.time.format.DateTimeFormatter fmt =
-                java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")
-                        .withZone(java.time.ZoneOffset.UTC);
-        java.time.Instant vigInstant = java.time.Instant.from(fmt.parse(vig));
+
+        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'")
+                .withZone(ZoneId.of("UTC"));
+
+        ZonedDateTime fechaZoned = ZonedDateTime.parse(vig, inputFormatter);
+
+        // 3️⃣ Convertir a la zona local (opcional, depende de tu necesidad)
+        LocalDateTime fechaLocal = fechaZoned.withZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
+
+        // 4️⃣ Formatear a dd/MM/yyyy HH:mm (el formato que necesitas)
+        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        String fechaFormateada = fechaLocal.format(outputFormatter);
+
+        String fechaLocalStr = fechaLocal.toString();
+        SharedPreferences prefs = getSharedPreferences("AutorizacionQr", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("vigencia", fechaLocalStr);
+        editor.putInt("IdProyecto",pid);
+        editor.apply();
+
 
         Payload p = new Payload();
         p.pid = pid;
-        p.vigInstant = vigInstant;
+        p.vigInstant = fechaFormateada;
         return p;
     }
 
