@@ -20,6 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 
 public class HomeActivity extends AppCompatActivity {
     private static final String PREF_SESSION = "session_prefs";
@@ -38,9 +39,11 @@ public class HomeActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        MaterialButton btnLogin = findViewById(R.id.btnRegistrar);
-        MaterialButton btncodigo = findViewById(R.id.btnCodigo);
-        MaterialButton btnlista= findViewById(R.id.btnEstatus);
+        MaterialCardView btnLogin = findViewById(R.id.cardRegistrar);
+        MaterialCardView btncodigo = findViewById(R.id.cardCodigo);
+        MaterialCardView btnlista= findViewById(R.id.cardEstatus);
+
+
 
         btnlista.setOnClickListener(view -> {
             SharedPreferences prefs = this.getSharedPreferences("AutorizacionQr", Context.MODE_PRIVATE);
