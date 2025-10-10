@@ -1,8 +1,10 @@
 package com.mrx.fundacionjubileo;
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.RadioGroup;
@@ -21,10 +23,27 @@ import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -47,6 +66,10 @@ public class RegisterActivity extends AppCompatActivity {
     private final String[] empresas = {"Viva", "Tigo", "Entel"};
     private final String[] departamentos = {"La Paz", "Cochabamba", "Santa Cruz","Oruro","Potosi","Chiquisaca","Tarija","Beni","Pando","Otro"};// mapea a 1..3 si lo necesitas
     private final String[] expediciones = {"LP", "SCZ", "CBBA","OR","PT","CH","TJA","BE","PD","EX"};
+
+    //configruaciond ela peticionde envio de datos
+    private OkHttpClient client = new OkHttpClient();
+    public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,15 +111,11 @@ public class RegisterActivity extends AppCompatActivity {
         etDepto.setOnClickListener(v -> etDepto.showDropDown());
         etLugarExp.setAdapter(lexpAdapter);
         etLugarExp.setOnClickListener(v -> etLugarExp.showDropDown());
-        // Estado inicial (por si vienes de rotación)
         updateBankFieldsVisibility(rbMod1.isChecked(), tilCuentaBancaria, tilBancoDestino);
-
-// Listener para mostrar/ocultar según radio seleccionado
         rgModalidad.setOnCheckedChangeListener((group, checkedId) -> {
-            boolean showBank = (checkedId == R.id.rbMod1); // solo Depósito
+            boolean showBank = (checkedId == R.id.rbMod1);
             updateBankFieldsVisibility(showBank, tilCuentaBancaria, tilBancoDestino);
             if (!showBank) {
-                // limpiar si ocultamos
                 etCuentaBancaria.setText(null);
                 etBancoDestino.setText(null);
                 tilCuentaBancaria.setError(null);
@@ -165,7 +184,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void setupEnviar() {
         btnEnviar.setOnClickListener(v -> {
             // Validaciones mínimas (los que marcaste con *)
-            if (isEmpty(etNombres)) {
+           if (isEmpty(etNombres)) {
                 toast("Nombres es obligatorio");
                 return;
             }
@@ -240,31 +259,160 @@ public class RegisterActivity extends AppCompatActivity {
 
 
             // Mapear empresa telefónica (opcional: 1..3)
-            int empresa = 0;
-            String empTxt = spEmpresa.getText().toString();
-            if (empTxt.equalsIgnoreCase("Viva")) empresa = 1;
-            else if (empTxt.equalsIgnoreCase("Tigo")) empresa = 2;
-            else if (empTxt.equalsIgnoreCase("Entel")) empresa = 3;
 
-            // Construir resumen para el Toast
-            String resumen =
-                    "Nombres: " + val(etNombres) + "\n" +
-                            "Ap. Paterno: " + val(etApPat) + "\n" +
-                            "Ap. Materno: " + val(etApMat) + "\n" +
-                            "Celular: " + val(etCel) + "\n" +
-                            "Empresa: " + (TextUtils.isEmpty(empTxt) ? "-" : empTxt) + "\n" +
-                            "CI: " + val(etCI) + "\n" +
 
-                            "Fec Emisión: " + val(etFecEmision) + "\n" +
-                            "Fec Venc: " + val(etFecVenc) + "\n" +
-                            "Nacionalidad: " + val(etNacionalidad) + "\n" +
-                            "Fec Nac: " + val(etFecNac) + "\n" +
-                            "Profesión: " + val(etProfesion) + "\n" +
-                            "Domicilio: " + val(etDomicilio) + "\n";
+            //todo metodo de registro de personas
 
-            Toast.makeText(this, resumen, Toast.LENGTH_LONG).show();
+            SharedPreferences prefs = getSharedPreferences("AutorizacionQr", MODE_PRIVATE);
+            String fechaGuardada = prefs.getString("vigencia", null);
 
-            // Aquí luego envías a la API usando tu cliente HTTP con el token en headers.
+            if (fechaGuardada != null) {
+                try {
+                    DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+                    LocalDateTime fechaLocal = LocalDateTime.parse(fechaGuardada, inputFormatter);
+                    LocalDateTime ahora = LocalDateTime.now();
+
+                    if (fechaLocal.isAfter(ahora)) {
+                        //todo variables obligatorias para el registro
+
+                        String nombre=etNombres.getText().toString().trim();
+                        String apellidoPaterno =etApPat.getText().toString().trim();
+                        String cedulaIdentidad=etCI.getText().toString().trim();
+                        String lugarExpedicion= etLugarExp.getText().toString().trim();
+                        String fechaEmision=etFecEmision.getText().toString().trim();
+                        String fechaVencimiento=etFecVenc.getText().toString().trim();
+                        String nacionalidad=etNacionalidad.getText().toString().trim();
+                        String fechaNacimiento =etFecNac.getText().toString().trim();
+                        String domicilio=etDomicilio.getText().toString().trim();
+                        String depoartamentoDelDomicilio = etDepto.getText().toString().trim();
+
+                        //todo variables opcionales
+                        String apellidoMaterno =etApMat.getText().toString().trim();
+                        String numeroCelular =etCel.getText().toString().trim();
+                        String empTxt = spEmpresa.getText().toString().trim();
+                        String empresaTelefonica;
+
+                        if (empTxt.equalsIgnoreCase("Viva")) {
+                            empresaTelefonica = "3";
+                        } else if (empTxt.equalsIgnoreCase("Tigo")) {
+                            empresaTelefonica = "2";
+                        } else if (empTxt.equalsIgnoreCase("Entel")) {
+                            empresaTelefonica = "1";
+                        } else {
+                            empresaTelefonica = "1";
+                        }
+                        String profesion =etProfesion.getText().toString().trim();
+
+                        //todo variables condicionales
+                        String modalidadValor;
+
+                        if (rbMod1.isChecked()) {
+                            modalidadValor = "1";
+                        } else if (rbMod2.isChecked()) {
+                            modalidadValor = "2";
+                        } else if (rbMod3.isChecked()) {
+                            modalidadValor = "3";
+                        } else {
+                            Toast.makeText(this, "Selecciona una modalidad de pago", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+
+                        String cuentaBancaria = "";
+                        String bancoDestino = "";
+
+                        if (modalidadValor.equals("1")) {
+                            boolean ok = true;
+
+                            cuentaBancaria = etCuentaBancaria.getText() != null ? etCuentaBancaria.getText().toString().trim() : "";
+                            bancoDestino = etBancoDestino.getText() != null ? etBancoDestino.getText().toString().trim() : "";
+
+                            if (cuentaBancaria.isEmpty()) {
+                                tilCuentaBancaria.setError("Requerido para depósito");
+                                ok = false;
+                            } else tilCuentaBancaria.setError(null);
+
+                            if (bancoDestino.isEmpty()) {
+                                tilBancoDestino.setError("Requerido para depósito");
+                                ok = false;
+                            } else tilBancoDestino.setError(null);
+
+                            if (!ok) return;
+                        }
+
+                        int idProyecto =prefs.getInt("IdProyecto",-1);
+
+
+                        //todo peticion a la api para registrar los datos
+                        JSONObject json = new JSONObject();
+                        try {
+                            json.put("nombres", nombre);
+                            json.put("apellidoPaterno", apellidoPaterno);
+                            json.put("apellidoMaterno", apellidoMaterno);
+                            json.put("cedulaIdentidad", cedulaIdentidad);
+                            json.put("lugarExpedicion", lugarExpedicion);
+                            json.put("fechaEmisionCi", fechaServer(fechaEmision));
+                            json.put("fechaVencimientoCi", fechaServer(fechaVencimiento));
+                            json.put("nacionalidad", nacionalidad);
+                            json.put("fechaNacimiento", fechaServer(fechaNacimiento));
+                            json.put("modalidadPago", Integer.parseInt(modalidadValor));
+                            json.put("idProyecto", idProyecto);
+                            json.put("numeroCelular", numeroCelular);
+                            json.put("empresaTelefonica", Integer.parseInt(empresaTelefonica));
+                            json.put("profesion", profesion);
+                            json.put("domicilio", domicilio);
+                            json.put("departamentoCi", depoartamentoDelDomicilio);
+                            json.put("cuentaBancaria", cuentaBancaria);
+                            json.put("bancoDestino", bancoDestino);
+                            json.put("urlFotoFrontalCi", "");
+                            json.put("urlFotoReversaCi", "");
+                            json.put("urlFirmaCi", "");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            return;
+                        }
+
+                        SharedPreferences prefs1 = getSharedPreferences("session_prefs", MODE_PRIVATE);
+                        String token = prefs1.getString("jwt_token", null);
+                        RequestBody body = RequestBody.create(json.toString(), JSON);
+                        Request request = new Request.Builder()
+                                .url("https://fundacionjubileotest-debfhkc6ezg0c8h2.brazilsouth-01.azurewebsites.net/api/RegistroPersona/crear") // Cambia "tu-endpoint"
+                                .addHeader("Authorization", "Bearer " + token)
+                                .post(body)
+                                .build();
+                        client.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                e.printStackTrace();
+                                runOnUiThread(() ->
+                                        Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show()
+                                );
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                final String respStr = response.body() != null ? response.body().string() : "";
+                                runOnUiThread(() ->{
+                                    Log.d("Respuesta Server","mensaje"+ respStr);
+                                    Toast.makeText(RegisterActivity.this, "Usuario RegistradoCorrectamente", Toast.LENGTH_LONG).show();
+                                   }
+                                );
+                            }
+                        });
+
+                    } else {
+                        Toast.makeText(this, "Renueva Tu codigo de autorizacion ya venció", Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (DateTimeParseException e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "Formato de fecha inválido", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(this, "No hay fecha guardada", Toast.LENGTH_SHORT).show();
+            }
+            //todo final del metodo
+
         });
     }
     private boolean isEmpty(TextInputEditText et) {
@@ -277,5 +425,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void toast(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+    }
+
+    private String fechaServer(String fecha){
+        String fechaFormateada = java.time.LocalDate.parse(fecha, java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                .atStartOfDay(java.time.ZoneOffset.UTC)
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"));
+
+        return fechaFormateada;
     }
 }
