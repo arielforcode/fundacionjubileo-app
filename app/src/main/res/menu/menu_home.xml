@@ -5,14 +5,14 @@
     <!-- Limpiar QR -->
     <item
         android:id="@+id/action_clear_qr"
-        android:icon="@drawable/ic_qr_code_24"
+        android:icon="@drawable/baseline_qr_code_scanner_24"
         android:title="Limpiar QR"
         app:showAsAction="always" />
 
     <!-- Salir -->
     <item
         android:id="@+id/action_logout"
-        android:icon="@drawable/ic_logout_24"
+        android:icon="@drawable/baseline_logout_24"
         android:title="Salir"
         app:showAsAction="always" />
 

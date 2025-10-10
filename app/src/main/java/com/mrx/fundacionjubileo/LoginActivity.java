@@ -113,9 +113,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Ingresa la contraseña", Toast.LENGTH_SHORT).show();
                 return;
             }
-
-            // Llamar API
-            int tipo = switchPhoneLogin.isChecked() ? 2 : 1;  // 1=email, 2=phone (como definimos en el endpoint)
+            int tipo = switchPhoneLogin.isChecked() ? 2 : 1;
             doLoginApi(tipo, input, pass);
         });
     }
@@ -152,14 +150,10 @@ public class LoginActivity extends AppCompatActivity {
                     String json = response.body() != null ? response.body().string() : "{}";
                     LoginResponse lr = gson.fromJson(json, LoginResponse.class);
 
-                    // 1) Toast con token (como pediste)
-                    runOnUiThread(() -> Toast.makeText(LoginActivity.this, "TOKEN: " + lr.token, Toast.LENGTH_LONG).show());
-
-                    // 2) Guardar en SharedPreferences: token, exp y user JSON
+                    runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Sesión Correcta", Toast.LENGTH_LONG).show());
                     String userJson = gson.toJson(lr.user);
                     SessionStore.save(LoginActivity.this, lr.token, lr.expiresAtUtc, userJson);
 
-                    // 3) Log del usuario (para ver en Logcat)
                     Log.d(TAG, "Usuario logueado: " + userJson);
 
                     // 4) Ir al Home

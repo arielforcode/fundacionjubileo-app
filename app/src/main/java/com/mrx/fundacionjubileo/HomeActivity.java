@@ -2,9 +2,12 @@ package com.mrx.fundacionjubileo;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -108,12 +111,32 @@ public class HomeActivity extends AppCompatActivity {
 
     /** Muestra un diálogo de confirmación reutilizable */
     private void showConfirmDialog(String title, String message, Runnable onConfirm) {
-        new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton("Sí", (dialog, which) -> onConfirm.run())
-                .setNegativeButton("Cancelar", (dialog, which) -> dialog.dismiss())
+                .setPositiveButton("Sí", (dialogInterface, which) -> onConfirm.run())
+                .setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss())
                 .show();
+
+// 👉 Cambiar color de fondo del AlertDialog
+        dialog.getWindow().setBackgroundDrawable(
+                new ColorDrawable(Color.parseColor("#1E88E5")) // Cambia este color a tu preferido
+        );
+
+// 👉 Cambiar color del título y del mensaje
+        TextView textTitle = dialog.findViewById(android.R.id.title);
+        TextView textMessage = dialog.findViewById(android.R.id.message);
+
+        if (textTitle != null) {
+            textTitle.setTextColor(Color.WHITE);
+        }
+        if (textMessage != null) {
+            textMessage.setTextColor(Color.WHITE);
+        }
+
+// 👉 Cambiar color de texto de los botones
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
+        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
     }
     @Override
     protected void onResume() {
