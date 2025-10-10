@@ -53,7 +53,15 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         btncodigo.setOnClickListener(view -> {
-            startActivity(new Intent(HomeActivity.this, QrScanActivity.class));
+            SharedPreferences prefs = this.getSharedPreferences("AutorizacionQr", Context.MODE_PRIVATE);
+            String fechaStr = prefs.getString("vigencia", null);
+            int pid = prefs.getInt("IdProyecto", -1);
+            if (fechaStr != null && pid != -1) {
+                Toast.makeText(this, "Tienes un código activo, bórralo antes de escanear uno nuevo", Toast.LENGTH_LONG).show();
+            } else {
+                Intent intent = new Intent(HomeActivity.this, QrScanActivity.class);
+                startActivity(intent);
+            }
         });
 
         // Demo: al tocar login, navega a HomeActivity
