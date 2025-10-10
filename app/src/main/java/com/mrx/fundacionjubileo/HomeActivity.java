@@ -39,20 +39,17 @@ public class HomeActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        MaterialCardView btnLogin = findViewById(R.id.cardRegistrar);
-        MaterialCardView btncodigo = findViewById(R.id.cardCodigo);
-        MaterialCardView btnlista= findViewById(R.id.cardEstatus);
+        MaterialCardView cardRegistrar = findViewById(R.id.cardRegistrar);
+        MaterialCardView cardCodigoQr = findViewById(R.id.cardCodigo);
+        MaterialCardView cardLista= findViewById(R.id.cardEstatus);
+        MaterialCardView cardPerfil = findViewById(R.id.cardPerfil);
 
-
-
-        btnlista.setOnClickListener(view -> {
-            SharedPreferences prefs = this.getSharedPreferences("AutorizacionQr", Context.MODE_PRIVATE);
-            String fechaStr = prefs.getString("vigencia", null);
-            int pid = prefs.getInt("IdProyecto", -1);
-            Toast.makeText(this, "vigencia " + fechaStr + ","+pid, Toast.LENGTH_SHORT).show();
+        cardRegistrar.setOnClickListener(v -> {
+            Intent i = new Intent(HomeActivity.this, RegisterActivity.class);
+            startActivity(i);
         });
 
-        btncodigo.setOnClickListener(view -> {
+        cardCodigoQr.setOnClickListener(view -> {
             SharedPreferences prefs = this.getSharedPreferences("AutorizacionQr", Context.MODE_PRIVATE);
             String fechaStr = prefs.getString("vigencia", null);
             int pid = prefs.getInt("IdProyecto", -1);
@@ -64,11 +61,18 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Demo: al tocar login, navega a HomeActivity
-        btnLogin.setOnClickListener(v -> {
-            Intent i = new Intent(HomeActivity.this, RegisterActivity.class);
-            startActivity(i);
+        cardLista.setOnClickListener(view -> {
+            SharedPreferences prefs = this.getSharedPreferences("AutorizacionQr", Context.MODE_PRIVATE);
+            String fechaStr = prefs.getString("vigencia", null);
+            int pid = prefs.getInt("IdProyecto", -1);
+            Toast.makeText(this, "vigencia " + fechaStr + ","+pid, Toast.LENGTH_SHORT).show();
         });
+
+        cardPerfil.setOnClickListener(view -> {
+            Intent intent = new Intent(HomeActivity.this, PerfilActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     @Override
@@ -129,12 +133,10 @@ public class HomeActivity extends AppCompatActivity {
                 .setNegativeButton("Cancelar", (dialogInterface, which) -> dialogInterface.dismiss())
                 .show();
 
-// 👉 Cambiar color de fondo del AlertDialog
         dialog.getWindow().setBackgroundDrawable(
                 new ColorDrawable(Color.parseColor("#1E88E5")) // Cambia este color a tu preferido
         );
 
-// 👉 Cambiar color del título y del mensaje
         TextView textTitle = dialog.findViewById(android.R.id.title);
         TextView textMessage = dialog.findViewById(android.R.id.message);
 
@@ -145,7 +147,6 @@ public class HomeActivity extends AppCompatActivity {
             textMessage.setTextColor(Color.WHITE);
         }
 
-// 👉 Cambiar color de texto de los botones
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.WHITE);
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.WHITE);
     }

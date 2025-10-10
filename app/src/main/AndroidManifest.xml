@@ -2,8 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.mrx.fundacionjubileo">
+
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera.any" android:required="false"/>
+
+    <uses-feature
+        android:name="android.hardware.camera.any"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -16,11 +21,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FundacionJubileo"
         tools:targetApi="31">
-
+        <activity
+            android:name=".PerfilActivity"
+            android:exported="false" />
         <activity
             android:name=".QrScanActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="screenOrientation"/>
+            tools:replace="screenOrientation" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"
@@ -40,10 +47,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CaptureActivityPortrait"
+        <activity
+            android:name=".CaptureActivityPortrait"
             android:screenOrientation="fullSensor"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>
