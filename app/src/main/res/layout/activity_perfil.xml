@@ -17,7 +17,8 @@
         app:title="Datos del perfil"
         app:titleCentered="false"
         app:titleTextColor="@android:color/white"
-        app:navigationIcon="@drawable/baseline_keyboard_backspace_24" />
+        app:navigationIcon="@drawable/baseline_keyboard_backspace_24"
+        tools:ignore="MissingConstraints" />
 
     <!-- CONTENIDO -->
     <androidx.core.widget.NestedScrollView
