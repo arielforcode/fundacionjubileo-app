@@ -299,7 +299,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else if (empTxt.equalsIgnoreCase("Entel")) {
                             empresaTelefonica = "1";
                         } else {
-                            empresaTelefonica = "1";
+                            empresaTelefonica = "0";
                         }
                         String profesion =etProfesion.getText().toString().trim();
 
@@ -395,6 +395,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 runOnUiThread(() ->{
                                     Log.d("Respuesta Server","mensaje"+ respStr);
                                     Toast.makeText(RegisterActivity.this, "Usuario RegistradoCorrectamente", Toast.LENGTH_LONG).show();
+                                    finish();
                                    }
                                 );
                             }
