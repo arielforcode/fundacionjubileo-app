@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout tilPassword;
     private TextInputEditText etPassword;
     private MaterialButton btnLogin;
+    private View progressOverlay;
 
     // Credenciales de prueba (hardcodeadas)
     private static final String TAG = "LoginActivity";
@@ -62,7 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         tilPassword      = findViewById(R.id.tilPassword);
         etPassword       = findViewById(R.id.etPassword);
         btnLogin         = findViewById(R.id.btnLogin);
-
+        progressOverlay  = findViewById(R.id.progressOverlay);
         // --- VALIDAR ESTADO AL INICIAR ---
         updateHintBasedOnSwitch(switchPhoneLogin.isChecked());
 
@@ -118,6 +120,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    private void setLoading(boolean loading) {
+        progressOverlay.setVisibility(loading ? View.VISIBLE : View.GONE);
+        btnLogin.setEnabled(!loading);
+        etEmail.setEnabled(!loading);
+        etPassword.setEnabled(!loading);
+        switchPhoneLogin.setEnabled(!loading);
+    }
     private void doLoginApi(int tipo, String identificador, String password) {
         try {
             JsonObject body = new JsonObject();
@@ -129,11 +138,13 @@ public class LoginActivity extends AppCompatActivity {
                     .url(BASE_URL + "/api/auth/login")
                     .post(RequestBody.create(gson.toJson(body), JSON))
                     .build();
-
+            setLoading(true);
             http.newCall(req).enqueue(new Callback() {
                 @Override public void onFailure(Call call, IOException e) {
-                    runOnUiThread(() ->
-                            Toast.makeText(LoginActivity.this, "Error de red: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                    runOnUiThread(() ->{
+                        setLoading(false);
+                        Toast.makeText(LoginActivity.this, "Error de red: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                       }
                     );
                 }
 
@@ -141,8 +152,10 @@ public class LoginActivity extends AppCompatActivity {
                     if (!response.isSuccessful()) {
                         String err = response.body() != null ? response.body().string() : "error";
                         Log.e(TAG, "Login fallo: " + err);
-                        runOnUiThread(() ->
-                                Toast.makeText(LoginActivity.this, "Credenciales inválidas", Toast.LENGTH_SHORT).show()
+                        runOnUiThread(() ->{
+                            setLoading(false);
+                            Toast.makeText(LoginActivity.this, "Credenciales inválidas", Toast.LENGTH_SHORT).show();
+                           }
                         );
                         return;
                     }

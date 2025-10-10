@@ -58,7 +58,7 @@
                         android:gravity="center"
                         android:layout_marginBottom="12dp"/>
 
-                    <!-- LOGO entre título y switch -->
+                    <!-- LOGO -->
                     <ImageView
                         android:id="@+id/ivLogo"
                         android:layout_width="120dp"
@@ -156,5 +156,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <!-- Overlay de carga (AL FINAL para que quede arriba) -->
+    <FrameLayout
+        android:id="@+id/progressOverlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            app:indicatorSize="56dp"
+            app:trackThickness="6dp"
+            android:layout_gravity="center" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
