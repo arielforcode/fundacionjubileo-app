@@ -2,6 +2,7 @@ package com.mrx.fundacionjubileo;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.Toast;
 
@@ -15,20 +16,35 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.materialswitch.MaterialSwitch;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     private MaterialSwitch switchPhoneLogin;
     private TextInputLayout tilEmail;
-    private TextInputEditText etEmail;           // input donde el user escribe
+    private TextInputEditText etEmail;
     private TextInputLayout tilPassword;
     private TextInputEditText etPassword;
     private MaterialButton btnLogin;
 
     // Credenciales de prueba (hardcodeadas)
-    private static final String DUMMY_PHONE = "61153463";
-    private static final String DUMMY_EMAIL = "admin@demo.com";
-    private static final String DUMMY_PASS  = "admin123";
+    private static final String TAG = "LoginActivity";
+    private static final String BASE_URL = "https://fundacionjubileotest-debfhkc6ezg0c8h2.brazilsouth-01.azurewebsites.net"; // <-- cámbialo
+    private static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
+    private final OkHttpClient http = new OkHttpClient();
+    private final Gson gson = new GsonBuilder().create();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,23 +75,24 @@ public class LoginActivity extends AppCompatActivity {
             etPassword.setText("");
         });
 
-
+        if (SessionStore.isTokenValid(this)) {
+            startActivity(new Intent(this, HomeActivity.class));
+            finish();
+            return;
+        }
 
 
         btnLogin.setOnClickListener(v -> {
-            // Limpiar errores
             tilEmail.setError(null);
             tilPassword.setError(null);
 
             String input = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
             String pass  = etPassword.getText() != null ? etPassword.getText().toString() : "";
 
-            // Validaciones básicas según modo
+            // Validaciones
             if (switchPhoneLogin.isChecked()) {
-                // TELEFONO: solo dígitos, exactamente 8, empieza con 6 o 7
                 boolean onlyDigits = input.matches("^[0-9]{8}$");
                 boolean startsOk   = input.startsWith("6") || input.startsWith("7");
-
                 if (!(onlyDigits && startsOk)) {
                     tilEmail.setError("Número de celular inválido");
                     Toast.makeText(this, "Número de celular inválido", Toast.LENGTH_SHORT).show();
@@ -83,8 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } else {
                 boolean hasAt = input.contains("@");
-                boolean patternOk = Patterns.EMAIL_ADDRESS.matcher(input).matches();
-
+                boolean patternOk = android.util.Patterns.EMAIL_ADDRESS.matcher(input).matches();
                 if (!(hasAt && patternOk)) {
                     tilEmail.setError("Email incorrecto");
                     Toast.makeText(this, "Email incorrecto", Toast.LENGTH_SHORT).show();
@@ -97,33 +113,67 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(this, "Ingresa la contraseña", Toast.LENGTH_SHORT).show();
                 return;
             }
-            boolean authOk = false;
-            if (switchPhoneLogin.isChecked()) {
-                if (input.equals(DUMMY_PHONE) && pass.equals(DUMMY_PASS)) {
-                    authOk = true;
-                }
-            } else {
-                // comparar con email de prueba
-                if (input.equalsIgnoreCase(DUMMY_EMAIL) && pass.equals(DUMMY_PASS)) {
-                    authOk = true;
-                }
-            }
 
-            if (authOk) {
-                getSharedPreferences("session_prefs", MODE_PRIVATE)
-                        .edit()
-                        .putBoolean("isLoggedIn", true)
-                        .apply();
-
-                // Login exitoso (aquí invocarías tu siguiente pantalla / API)
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                startActivity(intent);
-            } else {
-                // Credenciales incorrectas
-                //tilPassword.setError("Usuario o contraseña incorrectos");
-                Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
-            }
+            // Llamar API
+            int tipo = switchPhoneLogin.isChecked() ? 2 : 1;  // 1=email, 2=phone (como definimos en el endpoint)
+            doLoginApi(tipo, input, pass);
         });
+    }
+
+    private void doLoginApi(int tipo, String identificador, String password) {
+        try {
+            JsonObject body = new JsonObject();
+            body.addProperty("tipo", tipo);
+            body.addProperty("identificador", identificador);
+            body.addProperty("password", password);
+
+            Request req = new Request.Builder()
+                    .url(BASE_URL + "/api/auth/login")
+                    .post(RequestBody.create(gson.toJson(body), JSON))
+                    .build();
+
+            http.newCall(req).enqueue(new Callback() {
+                @Override public void onFailure(Call call, IOException e) {
+                    runOnUiThread(() ->
+                            Toast.makeText(LoginActivity.this, "Error de red: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                    );
+                }
+
+                @Override public void onResponse(Call call, Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        String err = response.body() != null ? response.body().string() : "error";
+                        Log.e(TAG, "Login fallo: " + err);
+                        runOnUiThread(() ->
+                                Toast.makeText(LoginActivity.this, "Credenciales inválidas", Toast.LENGTH_SHORT).show()
+                        );
+                        return;
+                    }
+
+                    String json = response.body() != null ? response.body().string() : "{}";
+                    LoginResponse lr = gson.fromJson(json, LoginResponse.class);
+
+                    // 1) Toast con token (como pediste)
+                    runOnUiThread(() -> Toast.makeText(LoginActivity.this, "TOKEN: " + lr.token, Toast.LENGTH_LONG).show());
+
+                    // 2) Guardar en SharedPreferences: token, exp y user JSON
+                    String userJson = gson.toJson(lr.user);
+                    SessionStore.save(LoginActivity.this, lr.token, lr.expiresAtUtc, userJson);
+
+                    // 3) Log del usuario (para ver en Logcat)
+                    Log.d(TAG, "Usuario logueado: " + userJson);
+
+                    // 4) Ir al Home
+                    runOnUiThread(() -> {
+                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    });
+                }
+            });
+
+        } catch (Exception ex) {
+            Toast.makeText(this, "Error: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
     private void updateHintBasedOnSwitch(boolean isPhoneMode) {
         tilEmail.setHint(isPhoneMode
@@ -136,4 +186,19 @@ public class LoginActivity extends AppCompatActivity {
             etEmail.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
         }
     }
+    public class BasicUserDto {
+        public String nombre;
+        public String apellido;
+        public String username;
+        public String email;
+        public String celular;
+    }
+
+    // LoginResponse.java
+    public class LoginResponse {
+        public String token;
+        public String expiresAtUtc; // ISO-8601, ej: 2025-10-09T23:45:00Z
+        public BasicUserDto user;
+    }
 }
+
