@@ -1,6 +1,8 @@
 package com.mrx.fundacionjubileo;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -393,9 +395,27 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onResponse(Call call, Response response) throws IOException {
                                 final String respStr = response.body() != null ? response.body().string() : "";
                                 runOnUiThread(() ->{
-                                    Log.d("Respuesta Server","mensaje"+ respStr);
-                                    Toast.makeText(RegisterActivity.this, "Usuario RegistradoCorrectamente", Toast.LENGTH_LONG).show();
-                                    finish();
+
+                                            JSONObject json = null;
+                                            try {
+                                                json = new JSONObject(respStr);
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
+
+                                            int id = json.optInt("id", -1); // devuelve -1 si no existe
+
+                                    if(id== -1){
+                                        Toast.makeText(RegisterActivity.this, "El registro tuvo un error cierra la aplciacion e intenta nuevamente", Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Intent intent = new Intent(RegisterActivity.this, UploadDocuments.class);
+                                        intent.putExtra("idProyecto", idProyecto);
+                                        intent.putExtra("idUser",id);
+                                        intent.putExtra("dni",cedulaIdentidad);
+                                        startActivity(intent);
+                                        Toast.makeText(RegisterActivity.this, "Usuario Registrado Correctamente", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    }
                                    }
                                 );
                             }
@@ -410,7 +430,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(this, "Formato de fecha inválido", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(this, "No hay fecha guardada", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "No tienes un qr de autorizacion valido, carga un qr de autorizacion", Toast.LENGTH_SHORT).show();
             }
             //todo final del metodo
 

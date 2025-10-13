@@ -62,10 +62,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         cardLista.setOnClickListener(view -> {
-            SharedPreferences prefs = this.getSharedPreferences("AutorizacionQr", Context.MODE_PRIVATE);
-            String fechaStr = prefs.getString("vigencia", null);
-            int pid = prefs.getInt("IdProyecto", -1);
-            Toast.makeText(this, "vigencia " + fechaStr + ","+pid, Toast.LENGTH_SHORT).show();
+
         });
 
         cardPerfil.setOnClickListener(view -> {
