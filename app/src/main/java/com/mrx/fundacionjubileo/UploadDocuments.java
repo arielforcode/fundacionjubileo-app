@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -46,6 +47,7 @@ public class UploadDocuments extends AppCompatActivity {
 
     private static final String BASE_URL = "https://fundacionjubileotest-debfhkc6ezg0c8h2.brazilsouth-01.azurewebsites.net/api/upload/imagenes";
     private OkHttpClient http = new OkHttpClient();
+    private View progressOverlay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +65,7 @@ public class UploadDocuments extends AppCompatActivity {
         btnReversa = findViewById(R.id.btnReversa);
         btnFirma = findViewById(R.id.btnFirma);
         btnEnviar = findViewById(R.id.btnEnviar);
+        progressOverlay = findViewById(R.id.progressOverlayDocuments);
         Intent intent = getIntent();
 
         // Recuperar los valores enviados
@@ -73,8 +76,6 @@ public class UploadDocuments extends AppCompatActivity {
         // Verificamos si llegaron correctamente
         if (idProyecto != -1 && idUser != -1 && dni !=-1) {
             Toast.makeText(this, "Proyecto: " + idProyecto + " - Usuario: " + idUser, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "No se recibieron los IDs correctamente", Toast.LENGTH_SHORT).show();
         }
 
         btnFrontal.setOnClickListener(v -> openCamera("frontal"));
@@ -147,7 +148,7 @@ public class UploadDocuments extends AppCompatActivity {
                 RequestBody.create(fileFirma, MediaType.parse("image/jpeg")));
 
         RequestBody requestBody = builder.build();
-
+        progressOverlay.setVisibility(View.VISIBLE);
         Request request = new Request.Builder()
                 .url(BASE_URL)
                 .header("Authorization", "Bearer " + SessionStore.getToken(this))
@@ -157,6 +158,7 @@ public class UploadDocuments extends AppCompatActivity {
         http.newCall(request).enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
                 runOnUiThread(() -> {
+                    progressOverlay.setVisibility(View.GONE);
                     Log.d("ariel",e.toString());
                     Toast.makeText(UploadDocuments.this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
@@ -165,10 +167,12 @@ public class UploadDocuments extends AppCompatActivity {
             @Override public void onResponse(Call call, Response response) throws IOException {
                 String res = response.body().string();
                 runOnUiThread(() -> {
+                    progressOverlay.setVisibility(View.GONE);
                     Log.d("ariel",res.toString());
                     Toast.makeText(UploadDocuments.this,
-                            response.isSuccessful() ? "Enviado correctamente" : "Error: " + res,
+                            response.isSuccessful() ? "Registro Completado, Espera la Revision" : "Error: " + res,
                             Toast.LENGTH_LONG).show();
+                    finish();
                 });
             }
         });

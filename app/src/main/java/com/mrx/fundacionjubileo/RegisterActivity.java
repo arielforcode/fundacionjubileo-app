@@ -49,7 +49,7 @@ import okhttp3.Response;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText etNombres, etApPat, etApMat, etCel, etCI;
+    private TextInputEditText etNombres, etApPat, etApMat, etCel, etCI,etEmail;
     private TextInputEditText etFecEmision, etFecVenc, etNacionalidad, etFecNac;
     private TextInputEditText etProfesion, etDomicilio;
     private MaterialAutoCompleteTextView spEmpresa, etDepto,etLugarExp;
@@ -73,6 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
     private OkHttpClient client = new OkHttpClient();
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
 
+    private View progressOverlay;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
          tilBancoDestino   = findViewById(R.id.tilBancoDestino);
          etCuentaBancaria = findViewById(R.id.etCuentaBancaria);
          etBancoDestino   = findViewById(R.id.etBancoDestino);
+         progressOverlay = findViewById(R.id.progressOverlayRegister);
 
         bindViews();
         setupDropdowns();
@@ -140,6 +142,7 @@ public class RegisterActivity extends AppCompatActivity {
         etApMat       = findViewById(R.id.etApMat);
         etCel         = findViewById(R.id.etCel);
         spEmpresa     = findViewById(R.id.spEmpresa);
+        etEmail       = findViewById(R.id.etEmail);
         etCI          = findViewById(R.id.etCI);
         etLugarExp    = findViewById(R.id.etLugarExp);
         etFecEmision  = findViewById(R.id.etFecEmision);
@@ -292,6 +295,7 @@ public class RegisterActivity extends AppCompatActivity {
                         String apellidoMaterno =etApMat.getText().toString().trim();
                         String numeroCelular =etCel.getText().toString().trim();
                         String empTxt = spEmpresa.getText().toString().trim();
+                        String email= etEmail.getText().toString().trim();
                         String empresaTelefonica;
 
                         if (empTxt.equalsIgnoreCase("Viva")) {
@@ -359,6 +363,7 @@ public class RegisterActivity extends AppCompatActivity {
                             json.put("fechaNacimiento", fechaServer(fechaNacimiento));
                             json.put("modalidadPago", Integer.parseInt(modalidadValor));
                             json.put("idProyecto", idProyecto);
+                            json.put("email", email);
                             json.put("numeroCelular", numeroCelular);
                             json.put("empresaTelefonica", Integer.parseInt(empresaTelefonica));
                             json.put("profesion", profesion);
@@ -373,7 +378,7 @@ public class RegisterActivity extends AppCompatActivity {
                             e.printStackTrace();
                             return;
                         }
-
+                        progressOverlay.setVisibility(View.VISIBLE);
                         SharedPreferences prefs1 = getSharedPreferences("session_prefs", MODE_PRIVATE);
                         String token = prefs1.getString("jwt_token", null);
                         RequestBody body = RequestBody.create(json.toString(), JSON);
@@ -386,8 +391,10 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 e.printStackTrace();
-                                runOnUiThread(() ->
-                                        Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show()
+                                runOnUiThread(() ->{
+                                            progressOverlay.setVisibility(View.GONE);
+                                            Toast.makeText(RegisterActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                                        }
                                 );
                             }
 
@@ -395,7 +402,7 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onResponse(Call call, Response response) throws IOException {
                                 final String respStr = response.body() != null ? response.body().string() : "";
                                 runOnUiThread(() ->{
-
+                                    progressOverlay.setVisibility(View.GONE);
                                             JSONObject json = null;
                                             try {
                                                 json = new JSONObject(respStr);
