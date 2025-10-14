@@ -32,11 +32,16 @@
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombres *">
+            android:hint="Nombres *"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNombres"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Apellido Paterno * -->
@@ -46,11 +51,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Apellido Paterno *"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etApPat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Apellido Materno -->
@@ -60,11 +70,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Apellido Materno"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etApMat"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Cédula de Identidad * -->
@@ -73,13 +88,18 @@
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Cédula de Identidad *"
-            android:layout_marginTop="12dp">
+            android:hint="Número De Cédula De Identidad"
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"/>
+                android:inputType="number"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Lugar Expedición (<=4 chars) * -->
@@ -93,7 +113,10 @@
             app:endIconMode="dropdown_menu"
             app:layout_constraintTop_toBottomOf="@id/tilCel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/etLugarExp"
@@ -102,7 +125,9 @@
                 android:hint="Lugar Expedición (ej. LP) *"
                 android:inputType="none"
                 android:focusable="false"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Fecha Emisión CI * -->
@@ -112,13 +137,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Fecha de emisión CI *"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etFecEmision"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:inputType="none"/>
+                android:inputType="none"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Fecha Vencimiento CI * -->
@@ -128,13 +158,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Fecha de vencimiento CI *"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etFecVenc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:inputType="none"/>
+                android:inputType="none"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Nacionalidad * -->
@@ -144,11 +179,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nacionalidad *"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNacionalidad"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Fecha de nacimiento * -->
@@ -158,13 +198,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Fecha de nacimiento *"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etFecNac"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
-                android:inputType="none"/>
+                android:inputType="none"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -175,12 +220,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Número celular"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"/>
+                android:inputType="phone"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Empresa Telefónica (enum) -->
@@ -193,7 +243,10 @@
             app:endIconMode="dropdown_menu"
             app:layout_constraintTop_toBottomOf="@id/tilCel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/spEmpresa"
@@ -202,7 +255,9 @@
                 android:hint="Empresa telefónica"
                 android:inputType="none"
                 android:focusable="false"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Profesión -->
@@ -211,12 +266,17 @@
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Profesión"
-            android:layout_marginTop="12dp">
+            android:hint="Profesión/Ocupación"
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etProfesion"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Domicilio -->
@@ -226,13 +286,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Domicilio *"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDomicilio"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
-
+        <!-- 👇 Leyenda debajo del campo -->
+        <TextView
+            android:id="@+id/tvLeyendaDomicilio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Copiar tal como está en su cédula de identidad"
+            android:textSize="12sp"
+            android:textColor="@color/textPrimary"
+            android:layout_marginTop="4dp"
+            android:paddingStart="4dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilDepto"
@@ -243,17 +317,31 @@
             app:endIconMode="dropdown_menu"
             app:layout_constraintTop_toBottomOf="@id/tilCel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/etDepto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Departamento de la direccion del CI *"
+                android:hint="Departamento Al Que Corresponde El Domicilio del CI *"
                 android:inputType="none"
                 android:focusable="false"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
+        <TextView
+            android:id="@+id/tvLeyendaDomicilioDpto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Departamento Al Que Corresponde El Domicilio Que Figura En La Cédula De Identidad"
+            android:textSize="12sp"
+            android:textColor="@color/textPrimary"
+            android:layout_marginTop="4dp"
+            android:paddingStart="4dp" />
 
         <!-- Modalidad de pago (3 radios en línea) -->
         <com.google.android.material.textview.MaterialTextView
@@ -275,20 +363,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Depósito en cuenta bancaria"
-                android:paddingEnd="16dp"/>
+                android:paddingEnd="16dp"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rbMod2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Transferencia por QR a cuenta bancaria. Opción válida solo para pagos menores a Bs. 500,00"
-                android:paddingEnd="16dp"/>
+                android:paddingEnd="16dp"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
 
             <com.google.android.material.radiobutton.MaterialRadioButton
                 android:id="@+id/rbMod3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Transferencia por QR a billetera móvil (Yape, Altoke, Yolpago). Opción válida solo para pagos menores a Bs. 500,00"/>
+                android:text="Transferencia por QR a billetera móvil (Yape, Altoke, Yolpago). Opción válida solo para pagos menores a Bs. 500,00"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </RadioGroup>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -298,13 +392,18 @@
             android:layout_height="wrap_content"
             android:hint="Cuenta bancaria"
             android:visibility="gone"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCuentaBancaria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"/>
+                android:inputType="text"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -314,13 +413,18 @@
             android:layout_height="wrap_content"
             android:hint="Banco destino"
             android:visibility="gone"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="12dp"
+            app:boxStrokeColor="@color/textPrimary"
+            app:hintTextColor="@color/textPrimary"
+            app:cursorColor="@color/textPrimary">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etBancoDestino"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords"/>
+                android:inputType="textCapWords"
+                android:textColor="@color/textPrimary"
+                android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Enviar -->
