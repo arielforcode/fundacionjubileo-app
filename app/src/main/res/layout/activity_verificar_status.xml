@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".VerificarStatusActivity"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:padding="10dp"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/tvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verificar Estado"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:textColor="?attr/colorOnBackground" />
+
+    <!-- Campo de texto para CI -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Número de Cédula de Identidad">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etCedula"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="15" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Botón para verificar -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnVerificar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Verificar"
+        android:layout_marginTop="24dp" />
+
+    <!-- Progress bar (oculto inicialmente) -->
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+        style="@style/Widget.Material3.CircularProgressIndicator.Medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        app:indicatorSize="48dp"
+        app:indicatorInset="4dp" />
+
+    <!-- Contenedor de botones de acción (solo visible si no está aprobado) -->
+    <LinearLayout
+        android:id="@+id/layoutAcciones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="32dp"
+        android:visibility="gone">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Corregir Datos"
+            android:layout_marginEnd="12dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Corregir Fotos" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutAprovado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="32dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/comprobado"
+            android:layout_margin="15dp"/>
+        <TextView
+            android:id="@+id/tvAprovado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tu registro esta aprobado."
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/textPrimary" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutRechazado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="32dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/rechazar"
+            android:layout_margin="15dp"/>
+        <TextView
+            android:id="@+id/tvRecahazado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tu registro esta rechazado contactate con un administrador."
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:textColor="@color/textPrimary" />
+    </LinearLayout>
+
+</LinearLayout>

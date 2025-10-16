@@ -62,7 +62,8 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         cardLista.setOnClickListener(view -> {
-
+            Intent intent = new Intent(HomeActivity.this, VerificarStatusActivity.class);
+            startActivity(intent);
         });
 
         cardPerfil.setOnClickListener(view -> {
