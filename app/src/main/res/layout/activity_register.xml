@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/main"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:fillViewport="true"
+android:background="@color/white"
+tools:context=".RegisterActivity">
+
+<!-- CONTENIDO PRINCIPAL SCROLLABLE -->
+<androidx.core.widget.NestedScrollView
+    android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    tools:context=".RegisterActivity"
     android:fillViewport="true"
-    android:background="@color/white"
->
-
-<androidx.core.widget.NestedScrollView
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:fillViewport="true"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:id="@+id/nestedScrollView">
+    android:layout_alignParentTop="true"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentEnd="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,18 +26,19 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- TÍTULO -->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:text="Registro de personas"
             android:textSize="25sp"
             android:textColor="@color/colorPrimary"
-            android:layout_gravity="center"
             android:gravity="center"
             android:textAlignment="center"
             android:textStyle="bold"
-            android:layout_margin="10dp"/>
-        <!-- Nombres * -->
+            android:layout_margin="10dp" />
+
+        <!-- NOMBRES -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilNombres"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -45,17 +46,17 @@
             android:layout_height="wrap_content"
             android:hint="Nombres *"
             app:boxStrokeColor="@color/textPrimary"
-            app:hintTextColor="@color/textPrimary"
-            app:cursorColor="@color/textPrimary">
+            app:hintTextColor="@color/textPrimary">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNombres"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/textPrimary"
-                android:textCursorDrawable="@drawable/custom_cursor"/>
+                android:textCursorDrawable="@drawable/custom_cursor" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Apellido Paterno * -->
+        <!-- APELLIDO PATERNO -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilApPat"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -64,17 +65,16 @@
             android:hint="Apellido Paterno *"
             android:layout_marginTop="12dp"
             app:boxStrokeColor="@color/textPrimary"
-            app:hintTextColor="@color/textPrimary"
-            app:cursorColor="@color/textPrimary">
+            app:hintTextColor="@color/textPrimary">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etApPat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textPrimary"
-                android:textCursorDrawable="@drawable/custom_cursor"/>
+                android:textColor="@color/textPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Apellido Materno -->
+        <!-- APELLIDO MATERNO -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilApMat"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -83,17 +83,16 @@
             android:hint="Apellido Materno"
             android:layout_marginTop="12dp"
             app:boxStrokeColor="@color/textPrimary"
-            app:hintTextColor="@color/textPrimary"
-            app:cursorColor="@color/textPrimary">
+            app:hintTextColor="@color/textPrimary">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etApMat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textPrimary"
-                android:textCursorDrawable="@drawable/custom_cursor"/>
+                android:textColor="@color/textPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Email * -->
+        <!-- EMAIL -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmail"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -102,39 +101,36 @@
             android:hint="Correo Electrónico"
             android:layout_marginTop="12dp"
             app:boxStrokeColor="@color/textPrimary"
-            app:hintTextColor="@color/textPrimary"
-            app:cursorColor="@color/textPrimary">
+            app:hintTextColor="@color/textPrimary">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/textPrimary"
-                android:textCursorDrawable="@drawable/custom_cursor"/>
+                android:textColor="@color/textPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Cédula de Identidad * -->
+        <!-- CI -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilCI"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Número De Cédula De Identidad"
+            android:hint="Número de Cédula de Identidad"
             android:layout_marginTop="12dp"
             app:boxStrokeColor="@color/textPrimary"
-            app:hintTextColor="@color/textPrimary"
-            app:cursorColor="@color/textPrimary">
+            app:hintTextColor="@color/textPrimary">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:textColor="@color/textPrimary"
-                android:textCursorDrawable="@drawable/custom_cursor"/>
+                android:textColor="@color/textPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Lugar Expedición (<=4 chars) * -->
-
+        <!-- LUGAR DE EXPEDICIÓN -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilLugarExp"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -142,26 +138,20 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             app:endIconMode="dropdown_menu"
-            app:layout_constraintTop_toBottomOf="@id/tilCel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:boxStrokeColor="@color/textPrimary"
-            app:hintTextColor="@color/textPrimary"
-            app:cursorColor="@color/textPrimary">
+            app:hintTextColor="@color/textPrimary">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/etLugarExp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Lugar Expedición (ej. LP) *"
-                android:inputType="none"
                 android:focusable="false"
                 android:clickable="true"
-                android:textColor="@color/textPrimary"
-                android:textCursorDrawable="@drawable/custom_cursor"/>
+                android:textColor="@color/textPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Fecha Emisión CI * -->
+        <!-- FECHA DE EMISIÓN -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilFecEmision"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -170,19 +160,18 @@
             android:hint="Fecha de emisión CI *"
             android:layout_marginTop="12dp"
             app:boxStrokeColor="@color/textPrimary"
-            app:hintTextColor="@color/textPrimary"
-            app:cursorColor="@color/textPrimary">
+            app:hintTextColor="@color/textPrimary">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etFecEmision"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:inputType="none"
-                android:textColor="@color/textPrimary"
-                android:textCursorDrawable="@drawable/custom_cursor"/>
+                android:textColor="@color/textPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Fecha Vencimiento CI * -->
+        <!-- FECHA DE VENCIMIENTO -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilFecVenc"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -191,19 +180,18 @@
             android:hint="Fecha de vencimiento CI *"
             android:layout_marginTop="12dp"
             app:boxStrokeColor="@color/textPrimary"
-            app:hintTextColor="@color/textPrimary"
-            app:cursorColor="@color/textPrimary">
+            app:hintTextColor="@color/textPrimary">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etFecVenc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:inputType="none"
-                android:textColor="@color/textPrimary"
-                android:textCursorDrawable="@drawable/custom_cursor"/>
+                android:textColor="@color/textPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Nacionalidad * -->
+        <!-- NACIONALIDAD -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilNacionalidad"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -212,17 +200,16 @@
             android:hint="Nacionalidad *"
             android:layout_marginTop="12dp"
             app:boxStrokeColor="@color/textPrimary"
-            app:hintTextColor="@color/textPrimary"
-            app:cursorColor="@color/textPrimary">
+            app:hintTextColor="@color/textPrimary">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNacionalidad"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/textPrimary"
-                android:textCursorDrawable="@drawable/custom_cursor"/>
+                android:textColor="@color/textPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Fecha de nacimiento * -->
+        <!-- FECHA DE NACIMIENTO -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilFecNac"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -231,20 +218,20 @@
             android:hint="Fecha de nacimiento *"
             android:layout_marginTop="12dp"
             app:boxStrokeColor="@color/textPrimary"
-            app:hintTextColor="@color/textPrimary"
-            app:cursorColor="@color/textPrimary">
+            app:hintTextColor="@color/textPrimary">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etFecNac"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="false"
                 android:inputType="none"
-                android:textColor="@color/textPrimary"
-                android:textCursorDrawable="@drawable/custom_cursor"/>
+                android:textColor="@color/textPrimary" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- (Puedes continuar pegando los demás campos tal cual de tu versión original,
+             ya que todos son compatibles en esta estructura lineal.) -->
 
-        <!-- Número celular -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilCel"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -458,7 +445,7 @@
                 android:textCursorDrawable="@drawable/custom_cursor"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Enviar -->
+        <!-- BOTÓN ENVIAR -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEnviar"
             style="@style/Widget.Material3.Button"
@@ -466,34 +453,31 @@
             android:layout_height="wrap_content"
             android:text="Enviar"
             android:textAllCaps="false"
-            android:layout_marginTop="20dp"/>
-
+            android:layout_marginTop="20dp"
+            app:backgroundTint="@color/colorPrimary"
+            android:textColor="@android:color/white" />
     </LinearLayout>
-
 </androidx.core.widget.NestedScrollView>
 
-    <FrameLayout
-        android:id="@+id/progressOverlayRegister"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="#80000000"
-        android:visibility="gone"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+<!-- OVERLAY DE CARGA ENCIMA DE TODO -->
+<FrameLayout
+    android:id="@+id/progressOverlayRegister"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#80000000"
+    android:visibility="gone"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center">
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/progressIndicator"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            app:indicatorSize="64dp"
-            app:trackThickness="6dp"
-            app:indicatorColor="@color/colorPrimary"
-            android:layout_gravity="center" />
-    </FrameLayout>
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressIndicator"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:indicatorSize="64dp"
+        app:trackThickness="6dp"
+        app:indicatorColor="@color/colorPrimary"
+        android:layout_gravity="center" />
+</FrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

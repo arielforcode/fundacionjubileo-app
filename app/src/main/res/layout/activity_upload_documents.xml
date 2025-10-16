@@ -1,176 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UploadDocuments"
-    android:padding="16dp">
-<ScrollView
-    android:id="@+id/scrollView"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent">
+    android:padding="16dp"
+    tools:context=".UploadDocuments">
 
-    <LinearLayout
+    <!-- CONTENIDO PRINCIPAL -->
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Captura de documentos"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:layout_marginBottom="12dp" />
-
-        <!-- Frontal -->
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp"
-            android:padding="12dp">
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-            <LinearLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Captura de documentos"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Foto Frontal -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:layout_marginBottom="12dp"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="12dp"
+                android:padding="12dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Foto CI Frontal"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/imgFrontal"
-                    android:layout_width="200dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#E0E0E0"
-                    android:scaleType="centerCrop" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Foto CI Frontal"
+                        android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/btnFrontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tomar foto"
-                    android:layout_marginTop="8dp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <ImageView
+                        android:id="@+id/imgFrontal"
+                        android:layout_width="200dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#E0E0E0"
+                        android:scaleType="centerCrop" />
 
-        <!-- Reversa -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp"
-            android:padding="12dp">
+                    <Button
+                        android:id="@+id/btnFrontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tomar foto"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <!-- Foto Reversa -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:layout_marginBottom="12dp"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="12dp"
+                android:padding="12dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Foto CI Reversa"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/imgReversa"
-                    android:layout_width="200dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#E0E0E0"
-                    android:scaleType="centerCrop" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Foto CI Reversa"
+                        android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/btnReversa"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tomar foto"
-                    android:layout_marginTop="8dp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <ImageView
+                        android:id="@+id/imgReversa"
+                        android:layout_width="200dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#E0E0E0"
+                        android:scaleType="centerCrop" />
 
-        <!-- Firma -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp"
-            android:padding="12dp">
+                    <Button
+                        android:id="@+id/btnReversa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tomar foto"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <LinearLayout
+            <!-- Firma -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
+                app:cardElevation="4dp"
+                app:cardCornerRadius="12dp"
+                android:padding="12dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Firma del usuario"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:gravity="center">
 
-                <ImageView
-                    android:id="@+id/imgFirma"
-                    android:layout_width="200dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#E0E0E0"
-                    android:scaleType="centerCrop" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Firma del usuario"
+                        android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/btnFirma"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tomar foto"
-                    android:layout_marginTop="8dp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <ImageView
+                        android:id="@+id/imgFirma"
+                        android:layout_width="200dp"
+                        android:layout_height="150dp"
+                        android:layout_marginTop="8dp"
+                        android:background="#E0E0E0"
+                        android:scaleType="centerCrop" />
 
-        <!-- Enviar -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnEnviar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enviar imágenes"
-            android:textAllCaps="false"
-            app:cornerRadius="12dp"
-            app:backgroundTint="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="40dp"/>
-    </LinearLayout>
-</ScrollView>
+                    <Button
+                        android:id="@+id/btnFirma"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tomar foto"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
+            <!-- Enviar -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEnviar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enviar imágenes"
+                android:textAllCaps="false"
+                app:cornerRadius="12dp"
+                app:backgroundTint="@color/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="40dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- OVERLAY DE PROGRESO (encima de todo) -->
     <FrameLayout
         android:id="@+id/progressOverlayDocuments"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="#80000000"
         android:visibility="gone"
         android:clickable="true"
         android:focusable="true"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:gravity="center">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progressIndicator"
@@ -182,4 +182,4 @@
             android:layout_gravity="center" />
     </FrameLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
